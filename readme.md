@@ -13,6 +13,6 @@ TODO:
 * Die of shame for writing in PHP :D 
 
 DONE:
-* Brute force protection (IP ?)
+* Brute force protection (IP)
 
-
+Hostet / Demo at http://secret.wiche.eu/ 
