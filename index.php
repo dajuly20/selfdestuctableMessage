@@ -118,7 +118,7 @@
 					file_put_contents($filename, $msg);
 				}
 				fclose($fh);
-				echo "<b> Das ist dein Link. Rufe ihn <u>nicht</u> selber auf. Die Nachricht zerstörtsich beim ersten &Ouml;ffnen selbst!</b><br />";
+				echo "<b> Das ist dein Link. Rufe ihn <u>nicht</u> selber auf. Die Nachricht zerst&oumlrt sich beim ersten &Ouml;ffnen selbst!</b><br />";
 				echo "<input type='text' class='js-copytextarea' value='$path/$messageId' size='50'>";
 				echo "<button class='js-textareacopybtn' style='vertical-align:top;'><img src='img/clipboard-copy-512.png' height='20px'></button><a href='whatsapp://send?text=$path/$messageId' ><img src='img/Whatsapp-icon.png' height='20px'></a><br><br><br>";
 				echo "<br><br><a href='./'>Neue Nachricht erstellen</a></a>";
