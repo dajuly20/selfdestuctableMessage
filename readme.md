@@ -9,8 +9,8 @@ When accessed with an id, access to a corresponding file in /tmp/msg/ is tried.
 The id can either be passed as request parameter "id" or as "SEO friendly URL" (In which case the webserver needs to be configured accordingly, example apache config will be added)
 
 TODO: 
-*Brute force protection (IP ?)
-*Encryption of messages
-*Die of shame for writing in PHP :D 
+* Brute force protection (IP ?)
+* Encryption of messages
+* Die of shame for writing in PHP :D 
 
 
