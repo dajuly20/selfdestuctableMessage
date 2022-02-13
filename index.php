@@ -5,33 +5,43 @@
 	$path= "https://".$_SERVER["SERVER_NAME"].$_SERVER["CONTEXT_PREFIX"];
 	$maxFileAgeMinutes = 240;
 	$msgdir ="/tmp/msg";
+	$ipFilterDir="/tmp/msgIps";
+	$ipAddr = $_SERVER["REMOTE_ADDR"];
+
+	 if (!is_dir("$ipFilterDir/")) {
+         	mkdir($msgdir, 0777, true);
+         }
 
 	//Deletng files that are older than $maxFileAgeMinutes
 	`find /tmp/msg* -mindepth 1 -mmin +$maxFileAgeMinutes -delete`; 
-
+	function touchIpForWrongId($IP){
+		$ipCounterPath="./countIp.sh $IP";
+		$y= exec($ipCounterPath, $output);
+		if($y >= 400) die("Die IP Adresse $IP wurde aufgrund zu vieler Fehlversuche dauerhaft blockiert");
+	}
 	function tailShell($filepath, $lines = 1) {
-			ob_start();
-			passthru('tail -'  . $lines . ' ' . escapeshellarg($filepath));
-			return trim(ob_get_clean());
-		}
+		ob_start();
+		passthru('tail -'  . $lines . ' ' . escapeshellarg($filepath));
+		return trim(ob_get_clean());
+	}
 
-		function generate_uuid() {
-			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-				mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-				mt_rand( 0, 0xffff ),
-				mt_rand( 0, 0x0C2f ) | 0x4000,
-				mt_rand( 0, 0x3fff ) | 0x8000,
-				mt_rand( 0, 0x2Aff ), mt_rand( 0, 0xffD3 ), mt_rand( 0, 0xff4B )
-			);
+	function generate_uuid() {
+		return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0x0C2f ) | 0x4000,
+			mt_rand( 0, 0x3fff ) | 0x8000,
+			mt_rand( 0, 0x2Aff ), mt_rand( 0, 0xffD3 ), mt_rand( 0, 0xff4B )
+		);
 
-		}
+	}
 
-		function secure_delete($file_path) {
-			$file_size = filesize($file_path);
-			$new_content = str_repeat('0', $file_size);
-			file_put_contents($file_path, $new_content);
-			return unlink($file_path);
-		}
+	function secure_delete($file_path) {
+		$file_size = filesize($file_path);
+		$new_content = str_repeat('0', $file_size);
+		file_put_contents($file_path, $new_content);
+		return unlink($file_path);
+	}
 ?>
 <!doctype html>
 
@@ -97,6 +107,9 @@
 
 		}
 		else {
+			
+			touchIpForWrongId($ipAddr);
+
 			echo "<div style='position: relative'><img align='center' style='display: flex;'  src='img/warn.png' height='100px'><br />&nbsp;<b>Die Nachricht wurde bereits abgerufen oder du hast einen falschen Link!</b></div><br><br>";
 		}
 
