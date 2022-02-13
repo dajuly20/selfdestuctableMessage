@@ -1,9 +1,27 @@
 <?php 
+	require('link-preview-detector/LinkPreviewOrigin.php');
+		$fp = fopen("/tmp/useragents", "a");
+		$dataHeaders = getallheaders();
+		$ua = $dataHeaders['User-Agent'];
+		
+	if(LinkPreviewOrigin::isForLinkPreview()){
+		$bla = "JAAA";
+		die("Preview Flytrap ;-))");
+
+	}
+	else{
+	$bla ="NEIN";
+	}
+	
+		fwrite($fp, "Gottcha..$bla ".$ua."\n\n\n");
+		fclose($fp);
+
 	$completeUri = $_SERVER['REQUEST_URI'];
 	$pysicalUri = $_SERVER['SCRIPT_NAME'];
 	$virtualUri = strpos($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME']);
 	$path= "https://".$_SERVER["SERVER_NAME"].$_SERVER["CONTEXT_PREFIX"];
 	$maxFileAgeMinutes = 240;
+	$maxFileAgeIpBlock = 48 * 60;
 	$msgdir ="/tmp/msg";
 	$ipFilterDir="/tmp/msgIps";
 	$ipAddr = $_SERVER["REMOTE_ADDR"];
@@ -14,6 +32,7 @@
 
 	//Deletng files that are older than $maxFileAgeMinutes
 	`find /tmp/msg* -mindepth 1 -mmin +$maxFileAgeMinutes -delete`; 
+	`find /tmp/msgIps* -mindepth 1 -mmin +$maxFileAgeIpBlock -delete`; 
 	function touchIpForWrongId($IP){
 		$ipCounterPath="./countIp.sh $IP";
 		$y= exec($ipCounterPath, $output);
@@ -153,8 +172,6 @@
 		}
 	} 
 ?>
-		<br><br><br>
-		<b>Alle Nachrichten werden nach <?php echo $maxFileAgeMinutes; ?> Minuten gelöscht, wenn sie nicht vorher abgerufen wurden. </b>	
 
 	</body>
 </html>
