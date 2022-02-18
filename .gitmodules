@@ -1,3 +1,6 @@
 [submodule "link-preview-detector"]
 	path = link-preview-detector
 	url = https://github.com/dajuly20/link-preview-detector
+[submodule "JS-Emoji-Keyboard"]
+	path = JS-Emoji-Keyboard
+	url = https://github.com/ZRunner/JS-Emoji-Keyboard
