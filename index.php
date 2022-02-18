@@ -109,7 +109,9 @@
 			$positionStartVirtualUri = $virtualUri + strlen($pysicalUri);
 			$messageId = substr($completeUri, $positionStartVirtualUri+1);
 		}
-	}
+		$needle =  strstr($messageId, "?", true); // ?GET Shizzle is not handled in that SEO friendly sh*t ... Ã-- 
+		$messageId = $needle ? $needle : $messageId; // If needle false, use whole message Id.. 
+	}	
 	
 	if(!empty($messageId)) {
 		$filename ="$msgdir/$messageId";
