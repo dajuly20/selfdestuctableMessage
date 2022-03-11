@@ -1,3 +1,4 @@
+
 <?php 
 	require('link-preview-detector/LinkPreviewOrigin.php');
 		$fp = fopen("/tmp/useragents", "a");
@@ -72,6 +73,10 @@
 	<script Language="JavaScript">
 		$(document).ready(function() {
 			var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+			$(".button-link").click(function(event) {
+			myHref = $(this).attr("href");
+			window.location.href = myHref;
+			});
 			copyTextareaBtn.addEventListener('click', function(event) {
 				var copyTextarea = document.querySelector('.js-copytextarea');
 				copyTextarea.focus();
@@ -153,8 +158,13 @@
 				}
 				fclose($fh);
 				echo "<b> Das ist dein Link. Rufe ihn <u>nicht</u> selber auf. Die Nachricht zerst&oumlrt sich beim ersten &Ouml;ffnen selbst!</b><br />";
-				echo "<input type='text' class='js-copytextarea' value='$path/$messageId' size='50'>";
-				echo "<button class='js-textareacopybtn' style='vertical-align:top;'><img src='img/clipboard-copy-512.png' height='20px'></button><a href='whatsapp://send?text=$path/$messageId' ><img src='img/Whatsapp-icon.png' height='20px'></a><br><br><br>";
+				echo "<input type='text' class='js-copytextarea' value='$path/$messageId' size='50'>&nbsp;&nbsp;";
+				echo "<button class='js-textareacopybtn' style='vertical-align:top;'><img src='img/clipboard-copy-512.png' height='20px'></button>&nbsp;&nbsp;";
+			        echo "<button class='button-link' href='sms:?body=$path/$messageId' style='vertical-align:top;'><img src='img/sms.png' height='20px'></button>&nbsp&nbsp; ";
+			        echo "<button class='button-link' href='mailto://?body=$path/$messageId' style='vertical-align:top;'><img src='img/email.png' height='20px'></button>&nbsp&nbsp; ";
+			        echo "<button class='button-link' href='whatsapp://send?text=$path/$messageId' style='vertical-align:top;'><img src='img/Whatsapp-icon.png' height='20px'></button>&nbsp&nbsp; ";
+			        echo "<button class='button-link' href='http://t.me/share/url?url=$path/$messageId' style='vertical-align:top;'><img src='img/telegram.png' height='20px'></button>&nbsp&nbsp; ";
+			        echo "<button class='button-link' href='fb-messenger://share/?link=$path/$messageId' style='vertical-align:top;'><img src='img/fb.png' height='20px'></button>&nbsp&nbsp; ";
 				echo "<br><br><a href='./'>Neue Nachricht erstellen</a></a>";
 			}
 		}
@@ -173,6 +183,9 @@
 <?php 
 		}
 	} 
+echo "<br>Aktuell ";
+echo (shell_exec("ls -la /tmp/msg | wc -l") -3);
+echo " ungelesene nachrichten";
 ?>
 
 	</body>
